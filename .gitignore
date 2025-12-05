@@ -1,0 +1,9 @@
+.ipynb_checkpoints/
+__pycache__/
+*.py[cod]
+*.csv
+*.json
+msft_data.json
+venv/
+env/
+.DS_Store
