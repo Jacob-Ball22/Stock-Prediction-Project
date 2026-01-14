@@ -116,22 +116,16 @@ def plot_returns_distribution(df):
     """
     #Calculate daily returns
     returns = df['Close'].pct_change() * 100
-    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 5))
+    plt.figure(figsize=(14, 6))
     
-    # Histogram
-    ax1.hist(returns.dropna(), bins=100, color='steelblue', alpha=0.7, edgecolor='black')
-    ax1.set_title('Distribution of Daily Returns', fontsize=14, fontweight='bold')
-    ax1.set_xlabel('Daily Return (%)', fontsize=12)
-    ax1.set_ylabel('Frequency', fontsize=12)
-    ax1.axvline(returns.mean(), color='red', linestyle='--', linewidth=2, label=f'Mean: {returns.mean():.2f}%')
-    ax1.legend()
-    ax1.grid(True, alpha=0.3, axis='y')
-    
-    # Box plot
-    ax2.boxplot(returns.dropna(), vert=True)
-    ax2.set_title('Box Plot of Daily Returns', fontsize=14, fontweight='bold')
-    ax2.set_ylabel('Daily Return (%)', fontsize=12)
-    ax2.grid(True, alpha=0.3, axis='y')
+    #Histogram
+    plt.hist(returns.dropna(), bins=100, color='steelblue', alpha=0.7, edgecolor='black')
+    plt.title('Distribution of Daily Returns', fontsize=14, fontweight='bold')
+    plt.xlabel('Daily Return (%)', fontsize=12)
+    plt.ylabel('Frequency', fontsize=12)
+    plt.axvline(returns.mean(), color='red', linestyle='--', linewidth=2, label=f'Mean: {returns.mean():.2f}%')
+    plt.legend()
+    plt.grid(True, alpha=0.3, axis='y')
     
     plt.tight_layout()
     plt.show()
@@ -139,7 +133,6 @@ def plot_returns_distribution(df):
     print(f"Std dev of returns: {returns.std():.4f}%")
     print(f"Min return: {returns.min():.2f}%")
     print(f"Max return: {returns.max():.2f}%")
-
 
 def show_basic_statistics(df):
     """
