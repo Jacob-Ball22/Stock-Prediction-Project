@@ -47,15 +47,30 @@ def create_trend_features(df, horizons=[2, 5, 60, 250, 1000]):
         df[f'Trend_{horizon}'] = df['Target'].shift(1).rolling(horizon).sum()
     return df
 
-def prepare_sp500_for_modeling(df, horizons=[2, 5, 60, 250, 1000]):
+def prepare_sp500_for_modeling(df, start_date="1990-01-01"):
     """
     Complete preparation pipeline for S&P 500 data.
     """
     df = clean_sp500_data(df)
     df = remove_unnecessary_columns(df)
     df = create_target_variable(df)
-    df = create_rolling_features(df, horizons)
-    df = create_trend_features(df, horizons)
+    df = df.loc[start_date:].copy()
+    
+    #Create rolling features
+    df["Close_Ratio_2"] = df["Close"] / df["Close"].shift(1)
+    df["Close_Ratio_5"] = df["Close"] / df["Close"].shift(5)
+    df["Close_Ratio_60"] = df["Close"] / df["Close"].shift(60)
+    df["Close_Ratio_250"] = df["Close"] / df["Close"].shift(250)
+    df["Close_Ratio_1000"] = df["Close"] / df["Close"].shift(1000)
+    
+    #Create trend features
+    df["Trend_2"] = df["Close"].shift(1).rolling(2).sum()
+    df["Trend_5"] = df["Close"].shift(1).rolling(5).sum()
+    df["Trend_60"] = df["Close"].shift(1).rolling(60).sum()
+    df["Trend_250"] = df["Close"].shift(1).rolling(250).sum()
+    df["Trend_1000"] = df["Close"].shift(1).rolling(1000).sum()
+    
+    #Drop any rows with NaN values
     df = df.dropna()
     return df
 
